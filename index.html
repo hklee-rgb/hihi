@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>EyeFlight — Eye-Tracking Shooting Trainer</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- MediaPipe FaceMesh CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+</head>
+<body>
+  <main id="app">
+    <header>
+      <h1>EyeFlight — Eye-Tracking Shooting Trainer</h1>
+      <p class="sr-only" id="liveStatus">Game ready. Camera not started.</p>
+    </header>
+
+    <section id="game-area" aria-label="Game area">
+      <div id="video-wrap">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="overlay" aria-hidden="true"></canvas>
+      </div>
+
+      <aside id="hud" aria-label="Game controls">
+        <div class="controls">
+          <label for="cameraSelect">Camera:</label>
+          <select id="cameraSelect" aria-label="Camera selection"></select>
+
+          <label>
+            <input type="checkbox" id="mirrorToggle" />
+            Mirror video (flip horizontally)
+          </label>
+
+          <label for="dwellRange">Dwell time (ms): <span id="dwellValue">800</span></label>
+          <input id="dwellRange" type="range" min="300" max="2000" step="50" value="800" />
+
+          <label for="sensitivityRange">Sensitivity: <span id="sensitivityValue">1.0</span></label>
+          <input id="sensitivityRange" type="range" min="0.5" max="2.0" step="0.05" value="1.0" />
+
+          <div class="mode">
+            <label for="modeSelect">Mode:</label>
+            <select id="modeSelect" aria-label="Game mode">
+              <option value="practice">Practice (no timer)</option>
+              <option value="timed">Timed (60s)</option>
+            </select>
+          </div>
+
+          <div class="buttons">
+            <button id="startBtn">Start</button>
+            <button id="pauseBtn" disabled>Pause</button>
+            <button id="resetBtn">Reset</button>
+          </div>
+
+          <div class="status" aria-live="polite">
+            <div>Time: <span id="time">—</span></div>
+            <div>Score: <span id="score">0</span></div>
+            <div>Hits: <span id="hits">0</span></div>
+            <div>Misses: <span id="misses">0</span></div>
+          </div>
+
+          <button id="calibrateBtn" class="full">Run quick calibration</button>
+        </div>
+      </aside>
+    </section>
+
+    <section id="instructions" aria-label="Instructions">
+      <h2>How to play</h2>
+      <ol>
+        <li>Allow camera access when prompted.</li>
+        <li>Select your camera and toggle Mirror if the preview appears reversed for you.</li>
+        <li>Use the sensitivity and dwell time to adjust difficulty.</li>
+        <li>Start the round. Aim the large gaze cursor at a target and hold for the dwell time to shoot.</li>
+      </ol>
+    </section>
+
+    <footer>
+      <small>All processing happens locally in your browser. No video is uploaded.</small>
+    </footer>
+  </main>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
